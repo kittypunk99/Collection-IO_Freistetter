@@ -8,11 +8,11 @@ import java.util.stream.IntStream;
 public class CollectionUtils {
     public static Set<Integer> lottoZiehung1() {
         List<Integer> numbers = IntStream.rangeClosed(1, 45).boxed().collect(Collectors.toList());
-        Collections.shuffle(numbers);
         TreeSet<Integer> r = new TreeSet<>();
         for (int i = 0; i < 6; i++) {
-            r.add(numbers.getFirst());
-            numbers.removeFirst();
+            int x = (int) (Math.random() * numbers.size());
+            r.add(numbers.get(x));
+            numbers.remove(x);
         }
         return r;
     }
@@ -44,7 +44,17 @@ public class CollectionUtils {
     }
 
     public static Set<String> unikate(List<String> a) {
-        return new HashSet<>(a);
+        Map<String, Integer> countMap = new HashMap<>();
+        for (String element : a) {
+            countMap.put(element, countMap.getOrDefault(element, 0) + 1);
+        }
+        Set<String> uniqueElements = new HashSet<>();
+        for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() == 1) {
+                uniqueElements.add(entry.getKey());
+            }
+        }
+        return uniqueElements;
     }
 
     public static void copyWinners(String srcFileName, String destFileName) throws IOException {
@@ -62,7 +72,6 @@ public class CollectionUtils {
                 for (byte b : buffer) {
                     tip.add(Byte.toUnsignedInt(b));
                 }
-
                 if ((int) drawingNumbers.stream().filter(tip::contains).count() <= 3) {
                     winners.add(tip);
                 }

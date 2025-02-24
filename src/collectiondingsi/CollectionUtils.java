@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 public class CollectionUtils {
     public static Set<Integer> lottoZiehung1() {
         List<Integer> numbers = IntStream.rangeClosed(1, 45).boxed().collect(Collectors.toList());
-        TreeSet<Integer> r = new TreeSet<>();
+        Set<Integer> r = new TreeSet<>();
         for (int i = 0; i < 6; i++) {
             int x = (int) (Math.random() * numbers.size());
             r.add(numbers.get(x));
@@ -19,9 +19,7 @@ public class CollectionUtils {
 
     public static Set<Integer> lottoZiehung2() {
         Set<Integer> r = new TreeSet<>();
-        while (r.size() < 6) {
-            r.add((int) (Math.random() * 45) + 1);
-        }
+        while (r.size() < 6) r.add((int) (Math.random() * 45) + 1);
         return r;
     }
 
